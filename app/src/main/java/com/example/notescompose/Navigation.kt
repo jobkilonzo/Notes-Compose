@@ -34,7 +34,7 @@ fun Navigation(
     homeVIewModel: HomeVIewModel
 ) {
     NavHost(navController = navController,
-        startDestination = "Login"
+        startDestination = NestedRoutes.Main.name
     ){
         authGraph(navController, loginViewModel)
         homeGraph(navController = navController, detailViewModel, homeVIewModel)

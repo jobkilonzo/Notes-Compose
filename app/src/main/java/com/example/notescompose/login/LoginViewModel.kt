@@ -75,7 +75,7 @@ class LoginViewModel(
     fun loginUser(context: Context) = viewModelScope.launch {
         try {
             if (!validateLoginForm()){
-                throw java.lang.IllegalArgumentException("email and password cannot be empty")
+                throw java.lang.IllegalArgumentException("Email and Password cannot be empty")
             }
             loginUiState = loginUiState.copy(isLoading = true)
 

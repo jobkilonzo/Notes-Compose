@@ -40,7 +40,7 @@ class StorageRepository() {
                     trySend(response)
                 }
         }catch (e: Exception){
-            trySend(Resource.Error(e?.cause))
+            trySend(Resource.Error(e.cause))
             e.printStackTrace()
         }
         awaitClose{

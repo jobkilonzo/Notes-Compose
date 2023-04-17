@@ -1,6 +1,7 @@
 package com.example.notescompose.home
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
@@ -48,6 +49,9 @@ fun Home(
     val scaffoldState = rememberScaffoldState()
 
 
+    LaunchedEffect(key1 = Unit){
+        homeVIewModel?.loadNotes()
+    }
     Scaffold(
         scaffoldState = scaffoldState,
         floatingActionButton = {
@@ -104,10 +108,39 @@ fun Home(
                             }
                         }
                     }
+                    AnimatedVisibility(visible = openDialog) {
+                        AlertDialog(
+                            onDismissRequest = {
+                                openDialog = false
+                            },
+                            title = { Text(text = "Delete Note?")},
+                            confirmButton = {
+                                Button(
+                                    onClick = {
+                                        selectedNote?.documentId?.let {
+                                            homeVIewModel?.deleteNote(it)
+                                        }
+                                        openDialog = false
+                                    },
+                                    colors = ButtonDefaults.buttonColors(
+                                        backgroundColor = Color.Red
+                                    )
+                                ) {
+                                    Text(text = "Delete")
+                                }
+                            },
+                            dismissButton = {
+                                Button(onClick = { openDialog = false}) {
+                                    Text(text = "Cancel")
+                                }
+                            }
+                        )
+                        
+                    }
                 }
                 else ->{
                     Text(text = homeUiState
-                        .notesList.throwable?.localizedMessage?: "Uknown error",
+                        .notesList.throwable?.localizedMessage?: "Unknown error",
                         color = Color.Red
                     )
                 }

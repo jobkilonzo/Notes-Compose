@@ -1,6 +1,7 @@
 package com.example.notescompose.detail
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -43,7 +44,7 @@ fun DetailScreen(
 
     val isNoteIDNotBlank = noteId.isNotBlank()
 
-    val icon = if (isFormsNotBlank) Icons.Default.Refresh
+    val icon = if (isNoteIDNotBlank) Icons.Default.Refresh
     else Icons.Default.Check
 
     LaunchedEffect(key1 = Unit){
@@ -60,17 +61,19 @@ fun DetailScreen(
     
     Scaffold(scaffoldState = scaffoldState,
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    if (isNoteIDNotBlank){
-                        detailViewMdel?.updateNote(noteId)
-                    }else{
-                        detailViewMdel?.addNote()
-                    }
-                }) {
-                Icon(imageVector = icon, contentDescription = null)
-                
-            }
+           AnimatedVisibility(visible = isFormsNotBlank) {
+               FloatingActionButton(
+                   onClick = {
+                       if (isNoteIDNotBlank){
+                           detailViewMdel?.updateNote(noteId)
+                       }else{
+                           detailViewMdel?.addNote()
+                       }
+                   }) {
+                   Icon(imageVector = icon, contentDescription = null)
+
+               }
+           }
         }
     ) {
         padding -> 
